@@ -185,7 +185,7 @@ export default function Home() {
           <div className="flex items-center gap-3">
             <span className="text-[#161616] font-bold text-base tracking-tight">Reno Mark</span>
             <span className="w-px h-4 bg-stone-200" />
-            <a href="https://kodumaakinnisvara.ee" target="_blank" rel="noopener noreferrer" className="opacity-50 hover:opacity-80 transition-opacity">
+            <a href="https://www.kodumaakv.ee/" target="_blank" rel="noopener noreferrer" className="opacity-50 hover:opacity-80 transition-opacity">
               <img src="/images/kodumaa-logo.svg" alt="Kodumaa Kinnisvara" className="h-7 w-auto" />
             </a>
           </div>
