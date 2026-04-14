@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import AnimatedFavicon from './AnimatedFavicon'
 
 export const metadata: Metadata = {
   title: 'Reno Mark — Kinnisvaramaakler',
@@ -9,7 +10,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="et">
-      <body>{children}</body>
+      <body><AnimatedFavicon />{children}</body>
     </html>
   )
 }
