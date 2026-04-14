@@ -133,6 +133,11 @@ export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [selectedReel, setSelectedReel] = useState<number | null>(null)
 
+  function scrollTo(id: string, block: ScrollLogicalPosition = 'start') {
+    const el = document.getElementById(id)
+    if (el) el.scrollIntoView({ behavior: 'smooth', block })
+  }
+
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 30)
     window.addEventListener('scroll', fn)
@@ -163,9 +168,9 @@ export default function Home() {
 
           {/* center: nav */}
           <nav className="flex items-center gap-7 text-sm font-medium text-stone-500 absolute left-1/2 -translate-x-1/2 bottom-5">
-            <a href="#minust" className="hover:text-[#161616] transition-colors">Minust</a>
-            <a href="#tunnustused" className="hover:text-[#161616] transition-colors">Tunnustused</a>
-            <a href="#kontakt" className="hover:text-[#161616] transition-colors">Kontakt</a>
+            <button onClick={() => scrollTo('minust')} className="hover:text-[#161616] transition-colors">Minust</button>
+            <button onClick={() => scrollTo('tunnustused', 'center')} className="hover:text-[#161616] transition-colors">Tagasiside</button>
+            <button onClick={() => scrollTo('kontakt')} className="hover:text-[#161616] transition-colors">Kontakt</button>
           </nav>
 
           {/* right: CTA */}
@@ -214,15 +219,14 @@ export default function Home() {
           <div className="w-10 h-1 rounded-full bg-stone-200 mx-auto mb-8" />
 
           <nav className="flex flex-col gap-1">
-            {[['#minust', 'Minust'], ['#tunnustused', 'Tunnustused'], ['#kontakt', 'Kontakt']].map(([href, label]) => (
-              <a
-                key={href}
-                href={href}
-                className="text-xl font-bold text-[#161616] py-3 border-b border-stone-100 hover:text-[#B8775A] transition-colors"
-                onClick={() => setMenuOpen(false)}
+            {[['minust', 'Minust', 'start'], ['tunnustused', 'Tagasiside', 'center'], ['kontakt', 'Kontakt', 'start']].map(([id, label, block]) => (
+              <button
+                key={id}
+                className="text-xl font-bold text-[#161616] py-3 border-b border-stone-100 hover:text-[#B8775A] transition-colors text-left"
+                onClick={() => { scrollTo(id, block as ScrollLogicalPosition); setMenuOpen(false) }}
               >
                 {label}
-              </a>
+              </button>
             ))}
           </nav>
 
@@ -331,7 +335,7 @@ export default function Home() {
       </section>
 
       {/* ═══ AWARDS BANNER ═════════════════════════════════ */}
-      <section id="tunnustused" className="bg-[#161616]">
+      <section className="bg-[#161616]">
         <div className="max-w-7xl mx-auto px-6 py-6">
           <div className="flex justify-center">
             <div className="flex flex-wrap justify-center gap-3">
@@ -497,8 +501,8 @@ export default function Home() {
       </section>
 
       {/* ═══ TESTIMONIALS ══════════════════════════════════ */}
-      <section className="bg-white border-y border-stone-200 py-24 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 mb-8 md:mb-14">
+      <section id="tunnustused" className="bg-white border-y border-stone-200 py-24 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6 mb-14 md:mb-14">
           <Reveal>
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#B8775A] text-white text-xs font-semibold uppercase tracking-widest mb-6">
               Klientide tagasiside
