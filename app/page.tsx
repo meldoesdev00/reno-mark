@@ -118,36 +118,6 @@ const testimonials = [
 
 const REELS = [1,2,3,4,5,6,7,8,9]
 
-function ReelSlideshow() {
-  const [idx, setIdx] = useState(0)
-  const [visible, setVisible] = useState(true)
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setVisible(false)
-      setTimeout(() => {
-        setIdx(i => (i + 1) % REELS.length)
-        setVisible(true)
-      }, 500)
-    }, 5000)
-    return () => clearInterval(timer)
-  }, [])
-
-  return (
-    <div className="rounded-3xl overflow-hidden bg-stone-900 aspect-[9/16] w-full border border-stone-200">
-      <video
-        key={idx}
-        src={`/reels/${REELS[idx]}.mp4`}
-        autoPlay
-        muted
-        loop
-        playsInline
-        style={{ transition: 'opacity 0.5s', opacity: visible ? 1 : 0 }}
-        className="w-full h-full object-cover"
-      />
-    </div>
-  )
-}
 
 function TestimonialCard({ t, fullWidth }: { t: { name: string; text: string }; fullWidth?: boolean }) {
   return (
@@ -161,6 +131,7 @@ function TestimonialCard({ t, fullWidth }: { t: { name: string; text: string }; 
 export default function Home() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [selectedReel, setSelectedReel] = useState<number | null>(null)
 
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 30)
@@ -306,7 +277,7 @@ export default function Home() {
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 px-8 py-4 rounded-full border-2 border-stone-200 text-stone-600 font-semibold text-sm hover:border-stone-300 hover:text-[#161616] transition-all duration-200"
                 >
-                  Portfellis olevad objektid <ChevronRight />
+                  Suundu minu portfelli <ChevronRight />
                 </a>
               </div>
 
@@ -387,6 +358,175 @@ export default function Home() {
       </section>
 
 
+      {/* ═══ REELS ═════════════════════════════════════════ */}
+      <section className="bg-stone-50 border-y border-stone-200 py-14 md:py-20 overflow-hidden">
+        {/* desktop horizontal marquee */}
+        <div className="hidden md:block">
+          <div className="max-w-7xl mx-auto px-6 overflow-hidden">
+            <div className="flex gap-4 reels-marquee">
+              {[...REELS, ...REELS].map((n, i) => (
+                <div key={i} className="shrink-0 w-[200px] rounded-3xl overflow-hidden bg-stone-900 cursor-pointer" style={{ aspectRatio: '9/16' }} onClick={() => setSelectedReel(n)}>
+                  <video src={`/reels/${n}.mp4`} autoPlay muted loop playsInline className="w-full h-full object-cover pointer-events-none" />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+        {/* mobile 3x2 grid */}
+        <div className="md:hidden grid grid-cols-3 gap-3 px-6">
+          {REELS.slice(0, 6).map((n) => (
+            <div key={n} className="rounded-2xl overflow-hidden bg-stone-900 cursor-pointer" style={{ aspectRatio: '9/16' }} onClick={() => setSelectedReel(n)}>
+              <video src={`/reels/${n}.mp4`} autoPlay muted loop playsInline className="w-full h-full object-cover pointer-events-none" />
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ═══ MÜÜGIPROTSESS ═════════════════════════════════ */}
+      <section className="bg-stone-50 border-y border-stone-200">
+        <div className="max-w-7xl mx-auto px-6 py-14 md:py-28">
+          <Reveal className="mb-8 md:mb-16">
+            <h2 className="text-[clamp(2rem,4vw,3rem)] font-extrabold leading-[1.1] tracking-tight text-[#161616]">
+              Müügiprotsess
+            </h2>
+          </Reveal>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {[
+              { step: '01', title: 'Esmane kohtumine', desc: 'Tutvume, kuulan sinu eesmärke ja olukorda. Selgitame välja, kas ja kuidas saan aidata. Esimene konsultatsioon on alati tasuta.' },
+              { step: '02', title: 'Teie kinnisvara hinnastamine', desc: 'Hindan kinnisvara turuväärtust, annan soovitused ettevalmistuseks ning lepime kokku müügistrateegia ja hinnapositsioneerimise.' },
+              { step: '03', title: 'Ettevalmistus & turundus', desc: 'Professionaalne fotograaf, läbimõeldud kuulutus ja sihitud turundus — tagame, et su objekt jõuab õigete inimesteni.' },
+              { step: '04', title: 'Näitamised', desc: 'Organiseerin kõik näitamised ja filtreerin tõsised huvilised välja. Annan pärast iga näitamist põhjaliku ülevaate.' },
+              { step: '05', title: 'Läbirääkimised', desc: 'Esindame sinu huve pakkumiste läbirääkimistel ning tagame, et saad parima võimaliku hinna ja tingimused.' },
+              { step: '06', title: 'Notar & üleandmine', desc: 'Korraldame kõik notariaalsed toimingud ning jälgin, et üleandmine toimuks sujuvalt ja mõlemat poolt rahuldavalt.' },
+            ].map((s, i) => (
+              <Reveal key={s.step} delay={i * 0.06}>
+                <div className="bg-white rounded-2xl p-7 border border-stone-200 hover:border-stone-300 hover:shadow-sm transition-all duration-300 hover:-translate-y-0.5 h-full">
+                  <span className="text-[2.5rem] font-extrabold leading-none text-stone-100">{s.step}</span>
+                  <h3 className="font-bold text-[#161616] text-sm mt-3 mb-2">{s.title}</h3>
+                  <p className="text-stone-500 text-xs leading-relaxed font-normal">{s.desc}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ MÕNED TEHTUD TEHINGUD ══════════════════════════ */}
+      <section className="bg-white border-y border-stone-200 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6 pt-14 md:pt-20 pb-8">
+          <Reveal className="mb-6">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#B8775A] text-white text-xs font-semibold uppercase tracking-widest mb-6">
+              Portfolio
+            </div>
+            <h2 className="text-[clamp(2rem,4vw,3rem)] font-extrabold leading-[1.1] tracking-tight text-[#161616]">
+              Mõned tehtud tehingud
+            </h2>
+          </Reveal>
+        </div>
+        {/* mobile — vertical scroll like testimonials */}
+        {(() => {
+          const imgs = [1,2,3,4,5,6,8,9,10,11,12,13,14,15,16,17,18,19,20,21];
+          return (
+            <div className="md:hidden relative h-[520px] overflow-hidden px-6 mb-14">
+              <div className="pointer-events-none absolute inset-x-0 top-0 h-16 z-10 bg-gradient-to-b from-white to-transparent" />
+              <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 z-10 bg-gradient-to-t from-white to-transparent" />
+              <div className="scroll-up-col-slow">
+                {[...imgs, ...imgs].map((n, i) => (
+                  <div key={i} className="rounded-2xl overflow-hidden bg-stone-100 border border-stone-200 relative mb-3">
+                    <Image src={`/myydud/${n}.png`} alt={`Tehing ${n}`} width={600} height={400} className="w-full h-auto object-cover" />
+                    <div className="absolute inset-0 bg-black/20" />
+                  </div>
+                ))}
+              </div>
+            </div>
+          );
+        })()}
+
+        {/* desktop — horizontal marquee */}
+        <div className="hidden md:block relative overflow-hidden pb-20">
+          <div className="pointer-events-none absolute inset-y-0 left-0 w-32 z-10 bg-gradient-to-r from-white to-transparent" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 w-32 z-10 bg-gradient-to-l from-white to-transparent" />
+          <div className="flex gap-4 images-marquee">
+            {[...[1,2,3,4,5,6,8,9,10,11,12,13,14,15,16,17,18,19,20,21], ...[1,2,3,4,5,6,8,9,10,11,12,13,14,15,16,17,18,19,20,21]].map((n, i) => (
+              <div key={i} className="shrink-0 w-52 rounded-2xl overflow-hidden bg-stone-100 border border-stone-200 relative group">
+                <Image src={`/myydud/${n}.png`} alt={`Tehing ${n}`} width={600} height={400} className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105" />
+                <div className="absolute inset-0 bg-black/20 group-hover:bg-black/35 transition-colors duration-500" />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ VALUES ════════════════════════════════════════ */}
+      <section className="bg-stone-50 border-y border-stone-200">
+        <div className="max-w-7xl mx-auto px-6 py-14 md:py-28">
+          <div className="flex flex-col lg:flex-row gap-8 lg:gap-16 items-start">
+            <div className="lg:w-72 lg:shrink-0">
+              <Reveal>
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#B8775A] text-white text-xs font-semibold uppercase tracking-widest mb-6">
+                  Mida saad oodata
+                </div>
+                <h2 className="text-[clamp(2rem,4vw,3rem)] font-extrabold leading-[1.1] tracking-tight text-[#161616]">
+                  Minu töö<br />põhimõtted
+                </h2>
+              </Reveal>
+            </div>
+            <div className="flex-1 grid sm:grid-cols-2 gap-4">
+              {[
+                { icon: '01', title: 'Läbipaistev suhtlus', desc: 'Räägin alati ausalt — ka siis, kui see pole see, mida tahaksid kuulda.' },
+                { icon: '02', title: 'Detailidele orienteeritud', desc: 'Iga etapp on läbimõeldud. Pealiskaudsust ei luba ma endale ega klientidele.' },
+                { icon: '03', title: 'Sinu eesmärgid esikohal', desc: 'Mina ei ole oluline. Oluline on väärtus, mida loon sulle.' },
+                { icon: '04', title: 'Tugev läbirääkimisoskus', desc: 'Aastaid müügis — saan aru, kuidas luua usaldust ja kaitsta sinu huve.' },
+                { icon: '05', title: 'Sportlase mentaliteet', desc: 'Distsipliin, järjepidevus ja fookus ka keerulisemates olukordades.' },
+                { icon: '06', title: 'Süsteemne lähenemine', desc: 'Süsteemne, kõrge kvaliteediga protsess igas tehingu etapis.' },
+              ].map((v, i) => (
+                <Reveal key={v.icon} delay={i * 0.06}>
+                  <div className="bg-white rounded-2xl p-6 border border-stone-200 hover:border-stone-300 hover:shadow-sm transition-all duration-300 hover:-translate-y-0.5 h-full">
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="w-8 h-8 rounded-xl bg-stone-100 flex items-center justify-center"><CheckCircle /></div>
+                      <span className="text-xs font-bold text-stone-300 uppercase tracking-widest">{v.icon}</span>
+                    </div>
+                    <h3 className="font-bold text-[#161616] text-sm mb-2">{v.title}</h3>
+                    <p className="text-stone-500 text-xs leading-relaxed font-normal">{v.desc}</p>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ TESTIMONIALS ══════════════════════════════════ */}
+      <section className="bg-white border-y border-stone-200 py-24 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6 mb-8 md:mb-14">
+          <Reveal>
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#B8775A] text-white text-xs font-semibold uppercase tracking-widest mb-6">
+              Klientide tagasiside
+            </div>
+            <h2 className="text-[clamp(2rem,4vw,3rem)] font-extrabold leading-[1.1] tracking-tight text-[#161616]">
+              Mida kliendid ütlevad
+            </h2>
+          </Reveal>
+        </div>
+        <div className="md:hidden relative h-[480px] overflow-hidden px-6">
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-16 z-10 bg-gradient-to-b from-white to-transparent" />
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 z-10 bg-gradient-to-t from-white to-transparent" />
+          <div className="scroll-up-col">
+            {[...testimonials, ...testimonials].map((t, i) => (
+              <div key={i} className="mb-4"><TestimonialCard t={t} fullWidth /></div>
+            ))}
+          </div>
+        </div>
+        <div className="hidden md:block">
+          <div className="flex gap-5 mb-5 marquee-left">
+            {[...testimonials, ...testimonials].map((t, i) => <TestimonialCard key={i} t={t} />)}
+          </div>
+          <div className="flex gap-5 marquee-right">
+            {[...testimonials.slice().reverse(), ...testimonials.slice().reverse()].map((t, i) => <TestimonialCard key={i} t={t} />)}
+          </div>
+        </div>
+      </section>
+
       {/* ═══ ABOUT ═════════════════════════════════════════ */}
       <section id="minust" className="max-w-7xl mx-auto px-6 py-14 md:py-28">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-20 items-start">
@@ -398,7 +538,7 @@ export default function Home() {
                 Minust
               </div>
               <h2 className="text-[clamp(2rem,4vw,3.25rem)] font-extrabold leading-[1.1] tracking-tight text-[#161616] mb-6">
-                Maakler, <br className="hidden lg:block" />kes räägib<br className="lg:hidden" /> <br className="hidden lg:block" />sulle alati tõtt.
+                Maakler, <br className="hidden lg:block" />kes räägib<br className="lg:hidden" /> <br className="hidden lg:block" />Sulle alati tõtt.
               </h2>
               <p className="text-stone-500 leading-relaxed mb-10 text-[0.95rem]">
                 Minu fookus ei ole minu enda edu — fookus on väärtusel, mida loon igale kliendile. Iga tehing on ainulaadne ning iga inimene vajab personaalset lähenemist.
@@ -407,16 +547,13 @@ export default function Home() {
 
             {/* photo (desktop) / reel slideshow (mobile) */}
             <Reveal delay={0.1} dir="left">
-              <div className="hidden lg:block relative rounded-3xl overflow-hidden bg-stone-100 aspect-[3/4] max-w-sm border border-stone-200">
+              <div className="relative rounded-3xl overflow-hidden bg-stone-100 aspect-[3/4] max-w-sm border border-stone-200">
                 <Image
                   src="/images/team.jpeg"
                   alt="Reno Mark"
                   fill
                   className="object-cover object-top"
                 />
-              </div>
-              <div className="lg:hidden">
-                <ReelSlideshow />
               </div>
             </Reveal>
 
@@ -475,216 +612,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ═══ VALUES ════════════════════════════════════════ */}
-      <section className="bg-stone-50 border-y border-stone-200">
-        <div className="max-w-7xl mx-auto px-6 py-14 md:py-28">
-          <div className="flex flex-col lg:flex-row gap-8 lg:gap-16 items-start">
-
-            <div className="lg:w-72 lg:shrink-0">
-              <Reveal>
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#B8775A] text-white text-xs font-semibold uppercase tracking-widest mb-6">
-                  Mida saad oodata
-                </div>
-                <h2 className="text-[clamp(2rem,4vw,3rem)] font-extrabold leading-[1.1] tracking-tight text-[#161616]">
-                  Minu töö<br />põhimõtted
-                </h2>
-              </Reveal>
-            </div>
-
-            <div className="flex-1 grid sm:grid-cols-2 gap-4">
-              {[
-                { icon: '01', title: 'Läbipaistev suhtlus', desc: 'Räägin alati ausalt — ka siis, kui see pole see, mida tahaksid kuulda.' },
-                { icon: '02', title: 'Detailidele orienteeritud', desc: 'Iga etapp on läbimõeldud. Pealiskaudsust ei luba ma endale ega klientidele.' },
-                { icon: '03', title: 'Sinu eesmärgid esikohal', desc: 'Mina ei ole oluline. Oluline on väärtus, mida loon sulle.' },
-                { icon: '04', title: 'Tugev läbirääkimisoskus', desc: 'Aastaid müügis — saan aru, kuidas luua usaldust ja kaitsta sinu huve.' },
-                { icon: '05', title: 'Sportlase mentaliteet', desc: 'Distsipliin, järjepidevus ja fookus ka keerulisemates olukordades.' },
-                { icon: '06', title: 'Süsteemne lähenemine', desc: 'Süsteemne, kõrge kvaliteediga protsess igas tehingu etapis.' },
-              ].map((v, i) => (
-                <Reveal key={v.icon} delay={i * 0.06}>
-                  <div className="bg-white rounded-2xl p-6 border border-stone-200 hover:border-stone-300 hover:shadow-sm transition-all duration-300 hover:-translate-y-0.5 h-full">
-                    <div className="flex items-center gap-3 mb-3">
-                      <div className="w-8 h-8 rounded-xl bg-stone-100 flex items-center justify-center">
-                        <CheckCircle />
-                      </div>
-                      <span className="text-xs font-bold text-stone-300 uppercase tracking-widest">{v.icon}</span>
-                    </div>
-                    <h3 className="font-bold text-[#161616] text-sm mb-2">{v.title}</h3>
-                    <p className="text-stone-500 text-xs leading-relaxed font-normal">{v.desc}</p>
-                  </div>
-                </Reveal>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-
-
-      {/* ═══ MÜÜGIPROTSESS ═════════════════════════════════ */}
-      <section className="bg-stone-50 border-y border-stone-200">
-        <div className="max-w-7xl mx-auto px-6 py-14 md:py-28">
-          <Reveal className="mb-8 md:mb-16">
-            <h2 className="text-[clamp(2rem,4vw,3rem)] font-extrabold leading-[1.1] tracking-tight text-[#161616]">
-              Müügiprotsess
-            </h2>
-          </Reveal>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {[
-              {
-                step: '01',
-                title: 'Esmane kohtumine',
-                desc: 'Tutvume, kuulan sinu eesmärke ja olukorda. Selgitame välja, kas ja kuidas saan aidata. Esimene konsultatsioon on alati tasuta.',
-              },
-              {
-                step: '02',
-                title: 'Objekti hindamine',
-                desc: 'Hindan kinnisvara turuväärtust, annan soovitused ettevalmistuseks ning lepime kokku müügistrateegia ja hinnapositsioneerimise.',
-              },
-              {
-                step: '03',
-                title: 'Ettevalmistus & turundus',
-                desc: 'Professionaalne fotograaf, läbimõeldud kuulutus ja sihitud turundus — tagame, et su objekt jõuab õigete inimesteni.',
-              },
-              {
-                step: '04',
-                title: 'Näitamised',
-                desc: 'Organiseerin kõik näitamised ja filtreerin tõsised huvilised välja. Annan pärast iga näitamist põhjaliku ülevaate.',
-              },
-              {
-                step: '05',
-                title: 'Läbirääkimised',
-                desc: 'Esindame sinu huve pakkumiste läbirääkimistel ning tagame, et saad parima võimaliku hinna ja tingimused.',
-              },
-              {
-                step: '06',
-                title: 'Notar & üleandmine',
-                desc: 'Korraldame kõik notariaalsed toimingud ning jälgin, et üleandmine toimuks sujuvalt ja mõlemat poolt rahuldavalt.',
-              },
-            ].map((s, i) => (
-              <Reveal key={s.step} delay={i * 0.06}>
-                <div className="bg-white rounded-2xl p-7 border border-stone-200 hover:border-stone-300 hover:shadow-sm transition-all duration-300 hover:-translate-y-0.5 h-full">
-                  <span className="text-[2.5rem] font-extrabold leading-none text-stone-100">{s.step}</span>
-                  <h3 className="font-bold text-[#161616] text-sm mt-3 mb-2">{s.title}</h3>
-                  <p className="text-stone-500 text-xs leading-relaxed font-normal">{s.desc}</p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ═══ MÜÜDUD OBJEKTID ═══════════════════════════════ */}
-      <section className="bg-white">
-      <div className="max-w-7xl mx-auto px-6 py-14 md:py-28">
-        <Reveal className="mb-14">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#B8775A] text-white text-xs font-semibold uppercase tracking-widest mb-6">
-            Portfolio
-          </div>
-          <h2 className="text-[clamp(2rem,4vw,3rem)] font-extrabold leading-[1.1] tracking-tight text-[#161616]">
-            Müüdud objektid
-          </h2>
-        </Reveal>
-
-        {/* mobile — single column scrolling vertically */}
-        {(() => {
-          const imgs = [1,2,3,4,5,6,8,9,10,11,12,13,14,15,16,17,18,19,20,21];
-          const renderImg = (n: number, i: number) => (
-            <div key={`${n}-${i}`} className="rounded-2xl overflow-hidden bg-stone-100 border border-stone-200 relative mb-3">
-              <Image
-                src={`/myydud/${n}.png`}
-                alt={`Müüdud objekt ${n}`}
-                width={600}
-                height={400}
-                className="w-full h-auto object-cover"
-              />
-              <div className="absolute inset-0 bg-black/20" />
-            </div>
-          );
-          return (
-            <div className="md:hidden relative h-[520px] overflow-hidden">
-              <div className="pointer-events-none absolute inset-x-0 top-0 h-16 z-10 bg-gradient-to-b from-white to-transparent" />
-              <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 z-10 bg-gradient-to-t from-white to-transparent" />
-              <div className="scroll-up-col-slow">
-                {[...imgs, ...imgs].map((n, i) => renderImg(n, i))}
-              </div>
-            </div>
-          );
-        })()}
-
-        {/* desktop — masonry grid */}
-        <div className="hidden md:block columns-3 lg:columns-4 gap-4 space-y-4">
-          {[1,2,3,4,5,6,8,9,10,11,12,13,14,15,16,17,18,19,20,21].map((n) => (
-            <Reveal key={n} delay={(n % 4) * 0.06}>
-              <div className="break-inside-avoid rounded-2xl overflow-hidden bg-stone-100 border border-stone-200 group relative">
-                <Image
-                  src={`/myydud/${n}.png`}
-                  alt={`Müüdud objekt ${n}`}
-                  width={600}
-                  height={400}
-                  className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-black/20 group-hover:bg-black/35 transition-colors duration-500" />
-              </div>
-            </Reveal>
-          ))}
-        </div>
-      </div>
-      </section>
-
-      {/* ═══ REELS ═════════════════════════════════════════ */}
-      <section className="hidden md:block bg-stone-50 border-y border-stone-200 py-20">
-        <div className="max-w-7xl mx-auto px-6 overflow-hidden">
-          <div className="flex gap-4 reels-marquee">
-            {[...REELS, ...REELS].map((n, i) => (
-              <div key={i} className="shrink-0 w-[200px] rounded-3xl overflow-hidden bg-stone-900" style={{ aspectRatio: '9/16' }}>
-                <video src={`/reels/${n}.mp4`} autoPlay muted loop playsInline className="w-full h-full object-cover" />
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ═══ TESTIMONIALS ══════════════════════════════════ */}
-      <section className="bg-white border-y border-stone-200 py-24 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 mb-8 md:mb-14">
-          <Reveal>
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#B8775A] text-white text-xs font-semibold uppercase tracking-widest mb-6">
-              Klientide tagasiside
-            </div>
-            <h2 className="text-[clamp(2rem,4vw,3rem)] font-extrabold leading-[1.1] tracking-tight text-[#161616]">
-              Mida kliendid ütlevad
-            </h2>
-          </Reveal>
-        </div>
-
-        {/* mobile — vertical scroll */}
-        <div className="md:hidden relative h-[480px] overflow-hidden px-6">
-          <div className="pointer-events-none absolute inset-x-0 top-0 h-16 z-10 bg-gradient-to-b from-white to-transparent" />
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 z-10 bg-gradient-to-t from-white to-transparent" />
-          <div className="scroll-up-col">
-            {[...testimonials, ...testimonials].map((t, i) => (
-              <div key={i} className="mb-4">
-                <TestimonialCard t={t} fullWidth />
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* desktop — scrolling marquee */}
-        <div className="hidden md:block">
-          <div className="flex gap-5 mb-5 marquee-left">
-            {[...testimonials, ...testimonials].map((t, i) => (
-              <TestimonialCard key={i} t={t} />
-            ))}
-          </div>
-          <div className="flex gap-5 marquee-right">
-            {[...testimonials.slice().reverse(), ...testimonials.slice().reverse()].map((t, i) => (
-              <TestimonialCard key={i} t={t} />
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* ═══ CONTACT ═══════════════════════════════════════ */}
       <section id="kontakt" className="bg-stone-50 border-t border-stone-200">
@@ -735,11 +662,11 @@ export default function Home() {
                   </div>
                   <ChevronRight />
                 </a>
-                <a href="mailto:reno@kodumaa.ee" className="group inline-flex items-center gap-4 p-5 rounded-2xl border border-stone-200 hover:border-stone-300 hover:shadow-sm transition-all duration-200">
+                <a href="mailto:Reno@kodumaakv.ee" className="group inline-flex items-center gap-4 p-5 rounded-2xl border border-stone-200 hover:border-stone-300 hover:shadow-sm transition-all duration-200">
                   <div className="w-10 h-10 rounded-xl bg-[#161616] text-white flex items-center justify-center shrink-0 group-hover:bg-[#B8775A] transition-colors duration-300"><MailIcon /></div>
                   <div>
                     <div className="text-xs font-semibold text-stone-400 uppercase tracking-widest mb-0.5">E-post</div>
-                    <div className="font-bold text-[#161616] text-sm">reno@kodumaa.ee</div>
+                    <div className="font-bold text-[#161616] text-sm">Reno@kodumaakv.ee</div>
                   </div>
                   <ChevronRight />
                 </a>
@@ -819,7 +746,34 @@ export default function Home() {
         .scroll-up-col-slow { animation: scrollUp  90s linear infinite; }
         .scroll-down-col    { animation: scrollDown 34s linear infinite; }
         .reels-marquee      { animation: marqueeLeft 60s linear infinite; }
+        .images-marquee     { animation: marqueeLeft 50s linear infinite; }
       `}</style>
+
+      {/* ═══ VIDEO MODAL ════════════════════════════════════ */}
+      {selectedReel !== null && (
+        <div
+          className="fixed inset-0 z-50 bg-black/85 flex items-center justify-center p-6"
+          onClick={() => setSelectedReel(null)}
+        >
+          <div className="relative w-full max-w-sm" onClick={e => e.stopPropagation()}>
+            <button
+              onClick={() => setSelectedReel(null)}
+              className="absolute -top-10 right-0 text-white/70 hover:text-white text-sm font-semibold transition-colors"
+            >
+              ✕ Sulge
+            </button>
+            <video
+              key={selectedReel}
+              src={`/reels/${selectedReel}.mp4`}
+              autoPlay
+              controls
+              playsInline
+              className="w-full rounded-3xl"
+              style={{ aspectRatio: '9/16' }}
+            />
+          </div>
+        </div>
+      )}
     </div>
   )
 }
