@@ -10,8 +10,8 @@ import {
 } from '@/sanity/lib/queries'
 import HomeClient from './HomeClient'
 
-// Rebuild on-demand via /api/revalidate — no time-based expiry
-export const revalidate = false
+// Revalidate every 30 seconds + on-demand via /api/revalidate webhook
+export const revalidate = 30
 
 export default async function Home() {
   const [settings, testimonials, processSteps, valueCards, bioCards, soldProperties, reels] =
