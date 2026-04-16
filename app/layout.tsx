@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     template: '%s | Reno Mark',
   },
   description:
-    'Reno Mark on Tallinna juhtiv kinnisvaramaakler. KV.EE Tippmaakler 2025, TOP käive Kodumaa Kinnisvara 2025. Tasuta kinnisvara hinnastamine. Helista: +372 5393 5292.',
+    'Reno Mark – Sinu kinnisvara. Minu prioriteet. KV.EE Tippmaakler 2025. Tasuta kinnisvara hinnastamine. Helista: +372 5393 5292.',
   keywords: [
     // Isikubränd
     'Reno Mark',
