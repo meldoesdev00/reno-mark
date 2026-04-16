@@ -162,7 +162,8 @@ export default function HomeClient({ settings, testimonials, processSteps, value
             <button onClick={() => scrollTo('tunnustused', 'center')} className="hover:text-[#161616] transition-colors">Tagasiside</button>
             <button onClick={() => scrollTo('kontakt')} className="hover:text-[#161616] transition-colors">Kontakt</button>
           </nav>
-          <a href={whatsapp} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-sm font-semibold px-5 py-2.5 rounded-full bg-[#161616] text-white hover:bg-[#B8775A] transition-all duration-300">
+          {/* desktop navbar CTA → mailto */}
+          <a href={`mailto:${s.contactEmail ?? 'Reno@kodumaakv.ee'}`} className="inline-flex items-center gap-1.5 text-sm font-semibold px-5 py-2.5 rounded-full bg-[#161616] text-white hover:bg-[#B8775A] transition-all duration-300">
             Võta ühendust <ChevronRight />
           </a>
         </div>
@@ -193,7 +194,8 @@ export default function HomeClient({ settings, testimonials, processSteps, value
               </button>
             ))}
           </nav>
-          <a href={whatsapp} target="_blank" rel="noopener noreferrer" className="mt-6 flex items-center justify-center gap-2 py-4 rounded-full bg-[#161616] text-white font-semibold text-sm" onClick={() => setMenuOpen(false)}>
+          {/* mobile menu CTA → tel: */}
+          <a href={`tel:${(s.contactPhone ?? '+37253935292').replace(/\s/g, '')}`} className="mt-6 flex items-center justify-center gap-2 py-4 rounded-full bg-[#161616] text-white font-semibold text-sm" onClick={() => setMenuOpen(false)}>
             Võta ühendust
           </a>
         </div>
@@ -346,8 +348,8 @@ export default function HomeClient({ settings, testimonials, processSteps, value
             <div className="pointer-events-none absolute inset-y-0 right-0 w-32 z-10 bg-gradient-to-l from-white to-transparent" />
             <div className="flex gap-4 images-marquee">
               {[...soldProperties, ...soldProperties].map((p, i) => (
-                <div key={i} className="shrink-0 w-52 rounded-2xl overflow-hidden bg-stone-100 border border-stone-200 relative group">
-                  <Image src={p.imageUrl} alt={p.alt ?? 'Müüdud objekt'} width={600} height={400} className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105" unoptimized />
+                <div key={i} className="shrink-0 w-52 h-36 rounded-2xl overflow-hidden bg-stone-100 border border-stone-200 relative group">
+                  <Image src={p.imageUrl} alt={p.alt ?? 'Müüdud objekt'} fill className="object-cover transition-transform duration-500 group-hover:scale-105" unoptimized />
                   <div className="absolute inset-0 bg-black/20 group-hover:bg-black/35 transition-colors duration-500" />
                 </div>
               ))}
@@ -489,10 +491,11 @@ export default function HomeClient({ settings, testimonials, processSteps, value
                   ))}
                 </div>
                 <div className="flex flex-col gap-3">
-                  <a href={whatsapp} target="_blank" rel="noopener noreferrer" className="w-full flex items-center justify-center gap-2 py-4 rounded-2xl bg-[#B8775A] text-white font-semibold text-sm hover:bg-[#C88B6A] transition-all duration-300">
+                  {/* mobile: tel: */}
+                  <a href={`tel:${(s.contactPhone ?? '+37253935292').replace(/\s/g, '')}`} className="w-full flex items-center justify-center gap-2 py-4 rounded-2xl bg-[#B8775A] text-white font-semibold text-sm hover:bg-[#C88B6A] transition-all duration-300">
                     <PhoneIcon />{s.ctaPrimaryButton ?? 'Helista kohe'}
                   </a>
-                  <a href={`${whatsapp}?text=Tere%2C+sooviksin+rohkem+infot.`} target="_blank" rel="noopener noreferrer" className="w-full flex items-center justify-center gap-2 py-4 rounded-2xl border border-stone-200 text-[#161616] font-semibold text-sm hover:border-stone-300 hover:bg-stone-50 transition-all duration-300">
+                  <a href={`mailto:${s.contactEmail ?? 'Reno@kodumaakv.ee'}`} className="w-full flex items-center justify-center gap-2 py-4 rounded-2xl border border-stone-200 text-[#161616] font-semibold text-sm hover:border-stone-300 hover:bg-stone-50 transition-all duration-300">
                     <MailIcon />{s.ctaSecondaryButton ?? 'Kirjuta mulle'}
                   </a>
                 </div>
@@ -542,10 +545,11 @@ export default function HomeClient({ settings, testimonials, processSteps, value
                   ))}
                 </div>
                 <div className="flex flex-col gap-3">
-                  <a href={whatsapp} target="_blank" rel="noopener noreferrer" className="w-full flex items-center justify-center gap-2 py-4 rounded-2xl bg-[#B8775A] text-white font-semibold text-sm hover:bg-[#C88B6A] transition-all duration-300 hover:-translate-y-0.5">
+                  {/* desktop CTA card: tel: */}
+                  <a href={`tel:${(s.contactPhone ?? '+37253935292').replace(/\s/g, '')}`} className="w-full flex items-center justify-center gap-2 py-4 rounded-2xl bg-[#B8775A] text-white font-semibold text-sm hover:bg-[#C88B6A] transition-all duration-300 hover:-translate-y-0.5">
                     <PhoneIcon />{s.ctaPrimaryButton ?? 'Helista kohe'}
                   </a>
-                  <a href={`${whatsapp}?text=Tere%2C+sooviksin+rohkem+infot.`} target="_blank" rel="noopener noreferrer" className="w-full flex items-center justify-center gap-2 py-4 rounded-2xl border border-stone-200 text-[#161616] font-semibold text-sm hover:border-stone-300 hover:bg-stone-50 transition-all duration-300 hover:-translate-y-0.5">
+                  <a href={`mailto:${s.contactEmail ?? 'Reno@kodumaakv.ee'}`} className="w-full flex items-center justify-center gap-2 py-4 rounded-2xl border border-stone-200 text-[#161616] font-semibold text-sm hover:border-stone-300 hover:bg-stone-50 transition-all duration-300 hover:-translate-y-0.5">
                     <MailIcon />{s.ctaSecondaryButton ?? 'Kirjuta mulle'}
                   </a>
                 </div>
@@ -567,8 +571,8 @@ export default function HomeClient({ settings, testimonials, processSteps, value
         .scroll-up-col      { animation: scrollUp   28s linear infinite; }
         .scroll-up-col-slow { animation: scrollUp   90s linear infinite; }
         .scroll-down-col    { animation: scrollDown 34s linear infinite; }
-        .reels-marquee      { animation: marqueeLeft 60s linear infinite; }
-        .images-marquee     { animation: marqueeLeft 50s linear infinite; }
+        .reels-marquee      { animation: marqueeLeft 60s linear infinite; will-change: transform; }
+        .images-marquee     { animation: marqueeLeft 50s linear infinite; will-change: transform; }
       `}</style>
 
       {/* video modal */}
