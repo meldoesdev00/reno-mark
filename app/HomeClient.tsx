@@ -545,11 +545,8 @@ export default function HomeClient({ settings, testimonials, processSteps, value
                   ))}
                 </div>
                 <div className="flex flex-col gap-3">
-                  {/* desktop CTA card: tel: */}
-                  <a href={`tel:${(s.contactPhone ?? '+37253935292').replace(/\s/g, '')}`} className="w-full flex items-center justify-center gap-2 py-4 rounded-2xl bg-[#B8775A] text-white font-semibold text-sm hover:bg-[#C88B6A] transition-all duration-300 hover:-translate-y-0.5">
-                    <PhoneIcon />{s.ctaPrimaryButton ?? 'Helista kohe'}
-                  </a>
-                  <a href={`mailto:${s.contactEmail ?? 'Reno@kodumaakv.ee'}`} className="w-full flex items-center justify-center gap-2 py-4 rounded-2xl border border-stone-200 text-[#161616] font-semibold text-sm hover:border-stone-300 hover:bg-stone-50 transition-all duration-300 hover:-translate-y-0.5">
+                  {/* desktop CTA card: only mailto */}
+                  <a href={`mailto:${s.contactEmail ?? 'Reno@kodumaakv.ee'}`} className="w-full flex items-center justify-center gap-2 py-4 rounded-2xl bg-[#B8775A] text-white font-semibold text-sm hover:bg-[#C88B6A] transition-all duration-300 hover:-translate-y-0.5">
                     <MailIcon />{s.ctaSecondaryButton ?? 'Kirjuta mulle'}
                   </a>
                 </div>
