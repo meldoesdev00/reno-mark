@@ -298,6 +298,35 @@ export default function HomeClient({ settings, testimonials, processSteps, value
         </section>
       )}
 
+      {/* ═══ TESTIMONIALS ══════════════════════════════════ */}
+      {testimonials.length > 0 && (
+        <section id="tunnustused" className="bg-white border-y border-stone-200 py-24 overflow-hidden">
+          <div className="max-w-7xl mx-auto px-6 mb-14 md:mb-14">
+            <Reveal>
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#B8775A] text-white text-xs font-semibold uppercase tracking-widest mb-6">Klientide tagasiside</div>
+              <h2 className="text-[clamp(2rem,4vw,3rem)] font-extrabold leading-[1.1] tracking-tight text-[#161616]">Mida kliendid ütlevad</h2>
+            </Reveal>
+          </div>
+          <div className="md:hidden relative h-[480px] overflow-hidden px-6">
+            <div className="pointer-events-none absolute inset-x-0 top-0 h-16 z-10 bg-gradient-to-b from-white to-transparent" />
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 z-10 bg-gradient-to-t from-white to-transparent" />
+            <div className="scroll-up-col">
+              {[...testimonials, ...testimonials].map((t, i) => (
+                <div key={i} className="mb-4"><TestimonialCard t={t} fullWidth /></div>
+              ))}
+            </div>
+          </div>
+          <div className="hidden md:block">
+            <div className="flex gap-5 mb-5 marquee-left">
+              {[...testimonials, ...testimonials].map((t, i) => <TestimonialCard key={i} t={t} />)}
+            </div>
+            <div className="flex gap-5 marquee-right">
+              {[...testimonials.slice().reverse(), ...testimonials.slice().reverse()].map((t, i) => <TestimonialCard key={i} t={t} />)}
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* ═══ MÜÜGIPROTSESS ═════════════════════════════════ */}
       {processSteps.length > 0 && (
         <section className="bg-stone-50 border-y border-stone-200">
@@ -383,35 +412,6 @@ export default function HomeClient({ settings, testimonials, processSteps, value
                   </Reveal>
                 ))}
               </div>
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* ═══ TESTIMONIALS ══════════════════════════════════ */}
-      {testimonials.length > 0 && (
-        <section id="tunnustused" className="bg-white border-y border-stone-200 py-24 overflow-hidden">
-          <div className="max-w-7xl mx-auto px-6 mb-14 md:mb-14">
-            <Reveal>
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#B8775A] text-white text-xs font-semibold uppercase tracking-widest mb-6">Klientide tagasiside</div>
-              <h2 className="text-[clamp(2rem,4vw,3rem)] font-extrabold leading-[1.1] tracking-tight text-[#161616]">Mida kliendid ütlevad</h2>
-            </Reveal>
-          </div>
-          <div className="md:hidden relative h-[480px] overflow-hidden px-6">
-            <div className="pointer-events-none absolute inset-x-0 top-0 h-16 z-10 bg-gradient-to-b from-white to-transparent" />
-            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 z-10 bg-gradient-to-t from-white to-transparent" />
-            <div className="scroll-up-col">
-              {[...testimonials, ...testimonials].map((t, i) => (
-                <div key={i} className="mb-4"><TestimonialCard t={t} fullWidth /></div>
-              ))}
-            </div>
-          </div>
-          <div className="hidden md:block">
-            <div className="flex gap-5 mb-5 marquee-left">
-              {[...testimonials, ...testimonials].map((t, i) => <TestimonialCard key={i} t={t} />)}
-            </div>
-            <div className="flex gap-5 marquee-right">
-              {[...testimonials.slice().reverse(), ...testimonials.slice().reverse()].map((t, i) => <TestimonialCard key={i} t={t} />)}
             </div>
           </div>
         </section>
