@@ -377,9 +377,10 @@ export default function HomeClient({ settings, testimonials, processSteps, value
             <div className="pointer-events-none absolute inset-y-0 right-0 w-32 z-10 bg-gradient-to-l from-white to-transparent" />
             <div className="flex gap-4 images-marquee">
               {[...soldProperties, ...soldProperties].map((p, i) => (
-                <div key={i} className="shrink-0 w-52 h-36 rounded-2xl overflow-hidden bg-stone-900 border border-stone-200 relative group">
-                  <Image src={p.imageUrl} alt={p.alt ?? 'Müüdud objekt'} fill className="object-contain transition-transform duration-500 group-hover:scale-105" unoptimized />
-                  <div className="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition-colors duration-500" />
+                <div key={i} className="shrink-0 w-52 rounded-2xl overflow-hidden border border-stone-200 relative group">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={p.imageUrl} alt={p.alt ?? 'Müüdud objekt'} className="w-full h-auto block" />
+                  <div className="absolute inset-0 group-hover:bg-black/10 transition-colors duration-500" />
                 </div>
               ))}
             </div>
