@@ -69,10 +69,16 @@ export default function ValuationModal({ onClose }: Props) {
     e.preventDefault()
     setSubmitting(true)
     try {
+      const params = new URLSearchParams(window.location.search)
       await fetch('/api/hinnastamine', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
+        body: JSON.stringify({
+          ...form,
+          utmSource: params.get('utm_source') ?? undefined,
+          utmMedium: params.get('utm_medium') ?? undefined,
+          utmCampaign: params.get('utm_campaign') ?? undefined,
+        }),
       })
     } catch (_) {}
     setScreen(form.planSoon === 'jah' ? 'ty-yes' : 'ty-no')

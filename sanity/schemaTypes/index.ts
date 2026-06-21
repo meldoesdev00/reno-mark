@@ -6,6 +6,8 @@ import { valueCard } from './valueCard'
 import { bioCard } from './bioCard'
 import { soldProperty } from './soldProperty'
 import { reel } from './reel'
+import { hinnastamisParing } from './hinnastamisParing'
+import { hinnastamiseKylastus } from './hinnastamiseKylastus'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -16,5 +18,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     bioCard,
     soldProperty,
     reel,
+    hinnastamisParing,
+    hinnastamiseKylastus,
   ],
 }

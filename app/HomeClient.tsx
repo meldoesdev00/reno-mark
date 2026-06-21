@@ -125,7 +125,19 @@ export default function HomeClient({ settings, testimonials, processSteps, value
   const [modalOpen, setModalOpen] = useState(false)
 
   useEffect(() => {
-    if (autoOpenModal) setModalOpen(true)
+    if (!autoOpenModal) return
+    setModalOpen(true)
+
+    const params = new URLSearchParams(window.location.search)
+    fetch('/api/hinnastamine/visit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        utmSource: params.get('utm_source') ?? undefined,
+        utmMedium: params.get('utm_medium') ?? undefined,
+        utmCampaign: params.get('utm_campaign') ?? undefined,
+      }),
+    }).catch(() => {})
   }, [autoOpenModal])
 
   const whatsapp = s.contactWhatsapp ?? 'https://wa.me/37253935292'

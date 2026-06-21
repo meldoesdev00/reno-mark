@@ -1,10 +1,32 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { Resend } from 'resend'
+import { writeClient } from '@/sanity/lib/client'
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json()
-    const { propertyType, rooms, address, planSoon, name, phone, email } = body
+    const { propertyType, rooms, address, planSoon, name, phone, email, utmSource, utmMedium, utmCampaign } = body
+
+    // Iga päring (nii jah kui ei) salvestatakse Sanity'sse, et kõiki leadse saaks
+    // Studios vaadata. Kirjutuse ebaõnnestumine ei tohi vormi esitamist katki teha.
+    try {
+      await writeClient.create({
+        _type: 'hinnastamisParing',
+        name,
+        phone,
+        email,
+        propertyType,
+        rooms: propertyType === 'Maatükk' ? undefined : rooms,
+        address,
+        planSoon,
+        utmSource,
+        utmMedium,
+        utmCampaign,
+        submittedAt: new Date().toISOString(),
+      })
+    } catch (err) {
+      console.error('[hinnastamine] Sanity write error:', err)
+    }
 
     if (planSoon !== 'jah') {
       // Lead not planning to sell soon — no notification, just log for records.
