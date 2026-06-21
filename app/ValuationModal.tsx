@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { sendGAEvent } from '@next/third-parties/google'
 
 type Screen = 'form' | 'ty-yes' | 'ty-no'
 
@@ -81,6 +82,13 @@ export default function ValuationModal({ onClose }: Props) {
         }),
       })
     } catch (_) {}
+
+    if (form.planSoon === 'jah') {
+      sendGAEvent('event', 'generate_lead', { property_type: form.propertyType, plan_to_sell: 'jah' })
+    } else {
+      sendGAEvent('event', 'hinnastamine_ei', { property_type: form.propertyType, plan_to_sell: 'ei' })
+    }
+
     setScreen(form.planSoon === 'jah' ? 'ty-yes' : 'ty-no')
     setSubmitting(false)
   }

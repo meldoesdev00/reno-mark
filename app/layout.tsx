@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import { GoogleAnalytics } from '@next/third-parties/google'
 
 const SITE_URL = 'https://renomark.ee'
 
@@ -185,6 +186,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
         {children}
       </body>
+      <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID ?? 'G-4GMEEFL3B9'} />
     </html>
   )
 }
