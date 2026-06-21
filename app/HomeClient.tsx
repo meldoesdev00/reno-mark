@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
+import ValuationModal from './ValuationModal'
 
 /* ── types ──────────────────────────────────────────────── */
 export interface SiteSettings {
@@ -48,6 +49,7 @@ interface Props {
   bioCards: BioCard[]
   soldProperties: SoldProperty[]
   reels: Reel[]
+  autoOpenModal?: boolean
 }
 
 /* ── helpers ────────────────────────────────────────────── */
@@ -115,11 +117,16 @@ function TestimonialCard({ t, fullWidth }: { t: Testimonial; fullWidth?: boolean
 /* ══════════════════════════════════════════════════════════
    HOME CLIENT
 ══════════════════════════════════════════════════════════ */
-export default function HomeClient({ settings, testimonials, processSteps, valueCards, bioCards, soldProperties, reels }: Props) {
+export default function HomeClient({ settings, testimonials, processSteps, valueCards, bioCards, soldProperties, reels, autoOpenModal }: Props) {
   const s = settings ?? {}
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const [selectedReel, setSelectedReel] = useState<string | null>(null)
+  const [modalOpen, setModalOpen] = useState(false)
+
+  useEffect(() => {
+    if (autoOpenModal) setModalOpen(true)
+  }, [autoOpenModal])
 
   const whatsapp = s.contactWhatsapp ?? 'https://wa.me/37253935292'
   const kvUrl    = s.contactKvUrl    ?? 'https://www.kv.ee/broker/renomark'
@@ -214,7 +221,7 @@ export default function HomeClient({ settings, testimonials, processSteps, value
                 {s.heroSubtitle ?? 'Läbipaistev, aus ja detailidele orienteeritud maakler, kes paneb sinu eesmärgid alati esikohale.'}
               </p>
               <div className="flex flex-wrap gap-4" style={{ opacity: 0, animation: 'fadeUp .65s .45s ease forwards' }}>
-                <button onClick={() => scrollTo('kontakt')} className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-[#161616] text-white font-semibold text-sm hover:bg-[#B8775A] transition-all duration-300 hover:-translate-y-0.5 shadow-sm hover:shadow-md">
+                <button onClick={() => setModalOpen(true)} className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-[#161616] text-white font-semibold text-sm hover:bg-[#B8775A] transition-all duration-300 hover:-translate-y-0.5 shadow-sm hover:shadow-md">
                   {s.heroPrimaryButton ?? 'Tasuta kinnisvara hinnastamine'} <ChevronRight />
                 </button>
                 <a href={kvUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-8 py-4 rounded-full border-2 border-stone-200 text-stone-600 font-semibold text-sm hover:border-stone-300 hover:text-[#161616] transition-all duration-200">
@@ -572,6 +579,9 @@ export default function HomeClient({ settings, testimonials, processSteps, value
         .reels-marquee      { animation: marqueeLeft 60s linear infinite; will-change: transform; }
         .images-marquee     { animation: marqueeLeft 50s linear infinite; will-change: transform; }
       `}</style>
+
+      {/* valuation modal */}
+      {modalOpen && <ValuationModal onClose={() => setModalOpen(false)} />}
 
       {/* video modal */}
       {selectedReel !== null && (

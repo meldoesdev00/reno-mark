@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 import './globals.css'
-import AnimatedFavicon from './AnimatedFavicon'
 
 const SITE_URL = 'https://renomark.ee'
 
@@ -113,7 +112,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="canonical" href={SITE_URL} />
       </head>
       <body>
-        <AnimatedFavicon />
         {/* JSON-LD structured data */}
         <script
           type="application/ld+json"
