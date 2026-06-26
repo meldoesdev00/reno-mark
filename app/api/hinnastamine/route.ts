@@ -39,7 +39,7 @@ export async function POST(req: NextRequest) {
     // 1) Notification to Reno
     await resend.emails.send({
       from: 'Reno Mark veebileht <hinnastamine@renomark.ee>',
-      to: 'renomark16@gmail.com',
+      to: 'reno@kodumaakv.ee',
       subject: `Uus hinnastamissoov – ${name}`,
       html: `
         <div style="font-family:sans-serif;max-width:480px;margin:0 auto;padding:32px 24px;background:#fff;">
