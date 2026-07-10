@@ -1,6 +1,10 @@
 'use client'
 
 import { useState } from 'react'
+
+declare global {
+  interface Window { fbq?: (...args: unknown[]) => void }
+}
 import { sendGAEvent } from '@next/third-parties/google'
 
 type Screen = 'form' | 'ty-yes' | 'ty-no'
@@ -89,6 +93,11 @@ export default function ValuationModal({ onClose }: Props) {
       sendGAEvent('event', 'hinnastamine_ei', { property_type: form.propertyType, plan_to_sell: 'ei' })
     }
 
+    if (form.planSoon === 'jah') {
+      window.fbq?.('track', 'Lead')
+    } else {
+      window.fbq?.('trackCustom', 'LeadNotReady')
+    }
     setScreen(form.planSoon === 'jah' ? 'ty-yes' : 'ty-no')
     setSubmitting(false)
   }
