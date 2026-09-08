@@ -34,8 +34,9 @@ export default async function OGImage() {
           <div style={{ fontSize: '24px', color: '#B8775A', fontWeight: 700 }}>
             KV.EE Tippmaakler 2025
           </div>
-          <div style={{ fontSize: '18px', color: '#999', lineHeight: 1.5, maxWidth: '480px' }}>
-            Läbipaistev, aus ja detailidele orienteeritud maakler, kes paneb sinu eesmärgid alati esikohale.
+          <div style={{ display: 'flex', flexDirection: 'column', fontSize: '18px', color: '#999', lineHeight: 1.5, maxWidth: '480px' }}>
+            <span>Läbipaistev, aus ja detailidele orienteeritud maakler,</span>
+            <span>kes paneb sinu eesmärgid alati esikohale!</span>
           </div>
           <div style={{ display: 'flex', gap: '32px', marginTop: '8px' }}>
             {[['100+', 'Klienti aidatud'], ['~65p', 'Tehinguaeg'], ['TOP 1', 'Kodumaa 2025']].map(([val, label]) => (
