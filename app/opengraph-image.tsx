@@ -5,7 +5,13 @@ export const alt = 'Reno Mark — Kinnisvaramaakler'
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 
-export default function OGImage() {
+export default async function OGImage() {
+  const photoBuffer = await fetch(new URL('./og-photo.jpg', import.meta.url)).then(res =>
+    res.arrayBuffer()
+  )
+  const photoBase64 = Buffer.from(photoBuffer).toString('base64')
+  const photoSrc = `data:image/jpeg;base64,${photoBase64}`
+
   return new ImageResponse(
     (
       <div
@@ -22,21 +28,6 @@ export default function OGImage() {
       >
         {/* left */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', flex: 1 }}>
-          <div
-            style={{
-              background: '#B8775A',
-              color: 'white',
-              fontSize: '14px',
-              fontWeight: 700,
-              letterSpacing: '0.15em',
-              textTransform: 'uppercase',
-              padding: '8px 20px',
-              borderRadius: '999px',
-              width: 'fit-content',
-            }}
-          >
-            Kinnisvaramaakler · Tallinn
-          </div>
           <div style={{ fontSize: '72px', fontWeight: 900, color: 'white', lineHeight: 1.05 }}>
             Reno Mark
           </div>
@@ -56,21 +47,26 @@ export default function OGImage() {
           </div>
         </div>
 
-        {/* right — decorative block */}
+        {/* right — photo */}
         <div
           style={{
-            width: '260px',
-            height: '380px',
+            width: '340px',
+            height: '470px',
             borderRadius: '32px',
             background: 'linear-gradient(135deg, #B8775A 0%, #8B5A3C 100%)',
             display: 'flex',
-            alignItems: 'center',
+            alignItems: 'flex-end',
             justifyContent: 'center',
-            fontSize: '80px',
+            overflow: 'hidden',
             flexShrink: 0,
           }}
         >
-          🏠
+          <img
+            src={photoSrc}
+            width={340}
+            height={510}
+            style={{ objectFit: 'cover', objectPosition: '50% 10%' }}
+          />
         </div>
       </div>
     ),
