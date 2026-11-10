@@ -8,6 +8,7 @@ import { soldProperty } from './soldProperty'
 import { reel } from './reel'
 import { hinnastamisParing } from './hinnastamisParing'
 import { hinnastamiseKylastus } from './hinnastamiseKylastus'
+import { muugijuhendiParing } from './muugijuhendiParing'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -20,5 +21,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     reel,
     hinnastamisParing,
     hinnastamiseKylastus,
+    muugijuhendiParing,
   ],
 }

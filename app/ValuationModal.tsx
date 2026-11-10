@@ -24,10 +24,10 @@ interface Props {
   onClose: () => void
 }
 
-const inputClass =
+export const inputClass =
   'w-full px-[14px] py-[10px] border border-black/[0.15] rounded-[10px] text-sm text-[#0a0a0a] bg-[#fafafa] outline-none appearance-none focus:border-[#B8775A] transition-colors font-sans'
 
-const labelClass =
+export const labelClass =
   'block text-[11px] font-medium text-black/40 uppercase tracking-[0.08em] mb-[5px]'
 
 function ChevronDown() {
@@ -38,7 +38,7 @@ function ChevronDown() {
   )
 }
 
-function SelectField({ label, value, onChange, options, placeholder }: {
+export function SelectField({ label, value, onChange, options, placeholder }: {
   label: string
   value: string
   onChange: (v: string) => void

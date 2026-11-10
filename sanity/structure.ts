@@ -68,4 +68,12 @@ export const structure: StructureResolver = (S) =>
                 ),
             ])
         ),
+    
+      S.documentTypeListItem('muugijuhendiParing')
+        .title('Müügijuhendi päringud')
+        .child(
+          S.documentTypeList('muugijuhendiParing')
+            .title('Müügijuhendi päringud')
+            .defaultOrdering([{ field: 'submittedAt', direction: 'desc' }])
+        ),
     ])

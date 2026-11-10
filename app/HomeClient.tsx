@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import ValuationModal from './ValuationModal'
+import MuugijuhendModal from './MuugijuhendModal'
 
 /* ── types ──────────────────────────────────────────────── */
 export interface SiteSettings {
@@ -49,7 +50,7 @@ interface Props {
   bioCards: BioCard[]
   soldProperties: SoldProperty[]
   reels: Reel[]
-  autoOpenModal?: boolean
+  autoOpenModal?: boolean | 'muugijuhend'
 }
 
 /* ── helpers ────────────────────────────────────────────── */
@@ -123,9 +124,14 @@ export default function HomeClient({ settings, testimonials, processSteps, value
   const [menuOpen, setMenuOpen] = useState(false)
   const [selectedReel, setSelectedReel] = useState<string | null>(null)
   const [modalOpen, setModalOpen] = useState(false)
+  const [guideOpen, setGuideOpen] = useState(false)
 
   useEffect(() => {
     if (!autoOpenModal) return
+    if (autoOpenModal === 'muugijuhend') {
+      setGuideOpen(true)
+      return
+    }
     setModalOpen(true)
 
     const params = new URLSearchParams(window.location.search)
@@ -594,6 +600,7 @@ export default function HomeClient({ settings, testimonials, processSteps, value
 
       {/* valuation modal */}
       {modalOpen && <ValuationModal onClose={() => setModalOpen(false)} />}
+      {guideOpen && <MuugijuhendModal onClose={() => setGuideOpen(false)} />}
 
       {/* video modal */}
       {selectedReel !== null && (
