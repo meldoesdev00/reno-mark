@@ -1,9 +1,10 @@
 import type { Metadata } from 'next'
 import './globals.css'
-import { GoogleAnalytics } from '@next/third-parties/google'
 import Script from 'next/script'
 import { Suspense } from 'react'
 import MetaPixelPageView from './MetaPixelPageView'
+import CookieConsent, { ConsentAnalytics } from './CookieConsent'
+import { CONSENT_KEY } from './consent'
 
 const SITE_URL = 'https://renomark.ee'
 
@@ -195,14 +196,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
           t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}
           (window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+          var c=null;try{c=localStorage.getItem('${CONSENT_KEY}')}catch(e){}
+          if(c!=='granted')fbq('consent','revoke');
           fbq('init','3175502982837785');fbq('track','PageView');
         `}} />
-        <noscript><img height="1" width="1" style={{display:'none'}} src="https://www.facebook.com/tr?id=3175502982837785&ev=PageView&noscript=1" alt="" /></noscript>
         <Suspense fallback={null}>
           <MetaPixelPageView />
         </Suspense>
+        {/* Google Analytics ja Meta Pixel töötavad alles pärast küpsistega nõustumist */}
+        <CookieConsent />
+        <ConsentAnalytics gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID ?? 'G-4GMEEFL3B9'} />
       </body>
-      <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID ?? 'G-4GMEEFL3B9'} />
     </html>
   )
 }

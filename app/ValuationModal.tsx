@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { useState } from 'react'
 
 declare global {
@@ -301,7 +302,8 @@ export default function ValuationModal({ onClose }: Props) {
               </button>
 
               <p className="text-[11px] text-black/30 leading-[1.6] text-center">
-                Andmeid kasutatakse üksnes hinnastamispäringule vastamiseks.
+                Andmeid kasutatakse üksnes hinnastamispäringule vastamiseks.{' '}
+                <Link href="/privaatsus" target="_blank" className="underline underline-offset-2 hover:text-black/60">Privaatsus</Link>
               </p>
             </form>
           </div>
